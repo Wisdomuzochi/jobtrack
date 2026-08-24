@@ -10,4 +10,6 @@ public class JobTrackDbContext : DbContext
     }
 
     public DbSet<Candidature> Candidatures { get; set; }
+    public DbSet<CompetenceRequise> CompetencesRequises { get; set; }
+    public DbSet<Contact> Contacts { get; set; }
 }
