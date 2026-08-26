@@ -142,4 +142,46 @@ public class CandidatureServiceTests
 
         Assert.False(resultat);
     }
+
+    [Fact]
+    public void RelanceConseillee_CandidatureEnvoyeeDepuisPlusDe15Jours_RetourneTrue()
+    {
+        // Arrange
+        var candidature = new Candidature
+        {
+            Statut = CandidatureStatut.Envoyee,
+            DateCandidature = DateTime.UtcNow.AddDays(-20)
+        };
+
+        // Assert
+        Assert.True(candidature.RelanceConseillee);
+    }
+
+    [Fact]
+    public void RelanceConseillee_CandidatureEnvoyeeRecemment_RetourneFalse()
+    {
+        // Arrange
+        var candidature = new Candidature
+        {
+            Statut = CandidatureStatut.Envoyee,
+            DateCandidature = DateTime.UtcNow.AddDays(-2)
+        };
+
+        // Assert
+        Assert.False(candidature.RelanceConseillee);
+    }
+
+    [Fact]
+    public void RelanceConseillee_CandidatureEnCoursDepuisLongtemps_RetourneFalse()
+    {
+        // Arrange
+        var candidature = new Candidature
+        {
+           Statut = CandidatureStatut.EnCours,
+           DateCandidature = DateTime.UtcNow.AddDays(-20)
+        };
+
+        // Assert
+        Assert.False(candidature.RelanceConseillee);
+    }
 }
