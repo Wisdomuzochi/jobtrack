@@ -93,4 +93,53 @@ public class CandidatureServiceTests
         Assert.Equal(2, candidatures[0].CompetencesRequises.Count);
         Assert.Single(candidatures[0].Contacts);
     }
+
+    [Fact]
+     public void ChangerStatut_AvecIdExistant_MetAJourLeStatut()
+    {
+        var context = CreerContexteDeTest();
+        var service = new CandidatureService(context);
+        var candidature = service.CreerCandidature(
+            "Développeur .NET", "MAF", "https://...", new List<string>(), new List<Contact>());
+
+        var candidatureModifiee = service.ChangerStatut(candidature.Id, CandidatureStatut.EnCours);
+
+        Assert.Equal(CandidatureStatut.EnCours, candidatureModifiee!.Statut);
+}
+
+    [Fact]
+    public void ChangerStatut_AvecIdInexistant_RetourneNull()
+    {
+        var context = CreerContexteDeTest();
+        var service = new CandidatureService(context);
+
+        var resultat = service.ChangerStatut(Guid.NewGuid(), CandidatureStatut.EnCours);
+
+        Assert.Null(resultat);
+    }
+
+    [Fact]
+    public void SupprimerCandidature_AvecIdExistant_RetourneTrue()
+    {
+        var context = CreerContexteDeTest();
+        var service = new CandidatureService(context);
+        var candidature = service.CreerCandidature(
+            "Développeur .NET", "MAF", "https://...", new List<string>(), new List<Contact>());
+
+        var resultat = service.SupprimerCandidature(candidature.Id);
+
+        Assert.True(resultat);
+        Assert.Empty(service.ListerCandidatures());
+    }
+
+    [Fact]
+    public void SupprimerCandidature_AvecIdInexistant_RetourneFalse()
+    {
+        var context = CreerContexteDeTest();
+        var service = new CandidatureService(context);
+
+        var resultat = service.SupprimerCandidature(Guid.NewGuid());
+
+        Assert.False(resultat);
+    }
 }
