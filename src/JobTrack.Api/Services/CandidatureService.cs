@@ -47,7 +47,7 @@ public class CandidatureService
 
         return candidature;
     }
-    
+
     public List<Candidature> ListerCandidatures()
     {
         // Sans Include, EF Core ne charge PAS les collections liées par défaut
@@ -58,5 +58,35 @@ public class CandidatureService
             .Include(c => c.CompetencesRequises)
             .Include(c => c.Contacts)
             .ToList();
+    }
+    
+    public Candidature? ChangerStatut(Guid id, CandidatureStatut nouveauStatut)
+    {
+        var candidature = _context.Candidatures.FirstOrDefault(c => c.Id == id);
+
+        if (candidature is null)
+        {
+           return null;
+        }
+
+        candidature.Statut = nouveauStatut;
+        _context.SaveChanges();
+   
+        return candidature;
+    }
+
+    public bool SupprimerCandidature(Guid id)
+    {    
+        var candidature = _context.Candidatures.FirstOrDefault(c => c.Id == id);
+
+        if (candidature is null)
+        {
+            return false;
+        }
+
+        _context.Candidatures.Remove(candidature);
+        _context.SaveChanges();
+
+        return true;
     }
 }
