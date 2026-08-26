@@ -1,0 +1,122 @@
+<div class="page-header">
+  <div>
+    <h1>Candidatures</h1>
+    <p class="page-subtitle">Suivi de toutes tes candidatures en un coup d'œil.</p>
+  </div>
+</div>
+
+<section class="stats-grid">
+  <div class="card stat-card">
+    <span class="stat-value">{{ total() }}</span>
+    <span class="stat-label">Total candidatures</span>
+  </div>
+  <div class="card stat-card">
+    <span class="stat-value stat-encours">{{ nombreEnCours() }}</span>
+    <span class="stat-label">En cours</span>
+  </div>
+  <div class="card stat-card">
+    <span class="stat-value stat-entretien">{{ nombreEntretien() }}</span>
+    <span class="stat-label">Entretien</span>
+  </div>
+  <div class="card stat-card">
+    <span class="stat-value stat-relance">{{ nombreRelances() }}</span>
+    <span class="stat-label">Relances conseillées</span>
+  </div>
+</section>
+
+@if (erreur()) {
+  <div class="card alert-error">{{ erreur() }}</div>
+}
+
+<section class="card table-card">
+  @if (chargement()) {
+    <p class="empty-state">Chargement des candidatures…</p>
+  } @else if (candidatures().length === 0) {
+    <div class="empty-state">
+      <p>Aucune candidature pour l'instant.</p>
+      <a routerLink="/candidatures/creer" class="btn btn-primary btn-sm">
+        + Créer ta première candidature
+      </a>
+    </div>
+  } @else {
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Poste</th>
+            <th>Entreprise</th>
+            <th>Compétences</th>
+            <th>Statut</th>
+            <th>Date candidature</th>
+            <th>Relance</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (candidature of candidatures(); track candidature.id) {
+            <tr class="row-enter">
+              <td class="cell-poste">{{ candidature.poste }}</td>
+              <td>{{ candidature.entreprise }}</td>
+              <td>
+                <div class="tag-list">
+                  @for (competence of candidature.competencesRequises; track competence.id) {
+                    <span class="tag">{{ competence.nom }}</span>
+                  }
+                  @if (candidature.competencesRequises.length === 0) {
+                    <span class="tag-empty">—</span>
+                  }
+                </div>
+              </td>
+              <td>
+                <div class="statut-cell">
+                  <span class="badge" [class]="badgeClasse(candidature.statut)">
+                    {{ statutLabels[candidature.statut] }}
+                  </span>
+                  @if (!statutFige(candidature)) {
+                    <select
+                      class="statut-select"
+                      [value]="candidature.statut"
+                      (change)="onChangerStatut(candidature, $event)"
+                      aria-label="Changer le statut"
+                    >
+                      @for (option of optionsStatut(candidature); track option) {
+                        <option [value]="option">{{ statutLabels[option] }}</option>
+                      }
+                    </select>
+                  }
+                </div>
+              </td>
+              <td>{{ candidature.dateCandidature | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                @if (candidature.relanceConseillee) {
+                  <span class="badge badge-relance">⚡ À relancer</span>
+                }
+              </td>
+              <td class="cell-actions">
+                <button
+                  type="button"
+                  class="btn btn-icon"
+                  title="Supprimer"
+                  aria-label="Supprimer la candidature"
+                  (click)="demanderSuppression(candidature)"
+                >
+                  🗑
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
+
+@if (candidatureASupprimer(); as candidature) {
+  <app-confirm-dialog
+    titre="Supprimer la candidature"
+    [message]="'Supprimer la candidature pour ' + candidature.poste + ' chez ' + candidature.entreprise + ' ? Cette action est irréversible.'"
+    texteConfirmer="Supprimer"
+    (confirme)="confirmerSuppression()"
+    (annule)="annulerSuppression()"
+  />
+}

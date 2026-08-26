@@ -1,0 +1,174 @@
+<div class="page-header">
+  <h1>Nouvelle candidature</h1>
+  <p class="page-subtitle">Renseigne les informations de ta candidature.</p>
+</div>
+
+<form class="card form-card" (submit)="onSubmit($event)" novalidate>
+  <div class="form-section">
+    <div class="field">
+      <label for="poste">Poste *</label>
+      <input
+        id="poste"
+        type="text"
+        [formControl]="form.controls.poste"
+        [class.invalid]="form.controls.poste.invalid && form.controls.poste.touched"
+        placeholder="Ex. Développeur·se Angular"
+      />
+      @if (form.controls.poste.invalid && form.controls.poste.touched) {
+        <span class="field-error">Le poste est obligatoire.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="entreprise">Entreprise *</label>
+      <input
+        id="entreprise"
+        type="text"
+        [formControl]="form.controls.entreprise"
+        [class.invalid]="form.controls.entreprise.invalid && form.controls.entreprise.touched"
+        placeholder="Ex. Acme Corp"
+      />
+      @if (form.controls.entreprise.invalid && form.controls.entreprise.touched) {
+        <span class="field-error">L'entreprise est obligatoire.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="lienOffre">Lien de l'offre</label>
+      <input
+        id="lienOffre"
+        type="text"
+        [formControl]="form.controls.lienOffre"
+        placeholder="https://…"
+      />
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="section-header">
+      <h2>Compétences requises</h2>
+      <button type="button" class="btn btn-ghost btn-sm" (click)="ajouterCompetence()">
+        + Ajouter une compétence
+      </button>
+    </div>
+
+    @if (competences.length === 0) {
+      <p class="section-empty">Aucune compétence ajoutée pour l'instant.</p>
+    }
+
+    @for (competence of competences.controls; track $index) {
+      <div class="dynamic-row">
+        <div class="field field-inline">
+          <input
+            type="text"
+            [formControl]="competence"
+            [class.invalid]="competence.invalid && competence.touched"
+            placeholder="Ex. TypeScript"
+          />
+          @if (competence.invalid && competence.touched) {
+            <span class="field-error">La compétence ne peut pas être vide.</span>
+          }
+        </div>
+        <button
+          type="button"
+          class="btn btn-icon"
+          title="Retirer cette compétence"
+          (click)="retirerCompetence($index)"
+        >
+          ✕
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="form-section">
+    <div class="section-header">
+      <h2>Contacts</h2>
+      <button type="button" class="btn btn-ghost btn-sm" (click)="ajouterContact()">
+        + Ajouter un contact
+      </button>
+    </div>
+
+    @if (contacts.length === 0) {
+      <p class="section-empty">Aucun contact ajouté pour l'instant.</p>
+    }
+
+    @for (contact of contacts.controls; track $index) {
+      <div class="contact-card">
+        <div class="contact-card-header">
+          <span class="contact-index">Contact {{ $index + 1 }}</span>
+          <button
+            type="button"
+            class="btn btn-icon"
+            title="Retirer ce contact"
+            (click)="retirerContact($index)"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="contact-fields">
+          <div class="field">
+            <label>Nom *</label>
+            <input
+              type="text"
+              [formControl]="contact.controls.nom"
+              [class.invalid]="contact.controls.nom.invalid && contact.controls.nom.touched"
+              placeholder="Ex. Marie Dupont"
+            />
+            @if (contact.controls.nom.invalid && contact.controls.nom.touched) {
+              <span class="field-error">Le nom est obligatoire.</span>
+            }
+          </div>
+
+          <div class="field">
+            <label>Email *</label>
+            <input
+              type="text"
+              [formControl]="contact.controls.email"
+              [class.invalid]="contact.controls.email.invalid && contact.controls.email.touched"
+              placeholder="Ex. marie@entreprise.com"
+            />
+            @if (contact.controls.email.invalid && contact.controls.email.touched) {
+              <span class="field-error">
+                @if (contact.controls.email.hasError('required')) {
+                  L'email est obligatoire.
+                } @else {
+                  Format d'email invalide.
+                }
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <label>Lien LinkedIn</label>
+            <input
+              type="text"
+              [formControl]="contact.controls.lienLinkedIn"
+              placeholder="https://linkedin.com/in/…"
+            />
+          </div>
+
+          <div class="field">
+            <label>Rôle</label>
+            <input
+              type="text"
+              [formControl]="contact.controls.role"
+              placeholder="Ex. Recruteuse"
+            />
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (erreur()) {
+    <div class="alert-error">{{ erreur() }}</div>
+  }
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary" [disabled]="envoiEnCours()">
+      {{ envoiEnCours() ? 'Création…' : 'Créer la candidature' }}
+    </button>
+  </div>
+</form>

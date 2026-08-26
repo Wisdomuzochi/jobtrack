@@ -15,6 +15,17 @@ builder.Services.AddDbContext<JobTrack.Api.Data.JobTrackDbContext>(options =>
     options.UseSqlite("Data Source=jobtrack.db"));
 builder.Services.AddScoped<JobTrack.Api.Services.CandidatureService>();
 
+const string FrontendCorsPolicy = "FrontendCorsPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(FrontendCorsPolicy, policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(FrontendCorsPolicy);
 
 app.MapControllers();
 

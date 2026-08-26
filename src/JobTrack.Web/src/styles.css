@@ -1,1 +1,280 @@
-/* You can add global styles to this file, and also import other style files */
+/* Thème global JobTrack : dark mode, accent indigo/violet */
+
+:root {
+  --color-bg: #0f1117;
+  --color-surface: #171a24;
+  --color-surface-alt: #1d212e;
+  --color-border: #2a2f3d;
+
+  --color-text: #e6e8f0;
+  --color-text-muted: #8b90a3;
+
+  --color-accent: #6366f1;
+  --color-accent-hover: #7c7ff5;
+  --color-accent-soft: rgba(99, 102, 241, 0.14);
+
+  --color-statut-envoyee: #3b82f6;
+  --color-statut-encours: #f59e0b;
+  --color-statut-entretien: #a855f7;
+  --color-statut-refuse: #b91c1c;
+  --color-statut-accepte: #22c55e;
+
+  --color-relance: #f97316;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Boutons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn-ghost:hover {
+  background: var(--color-surface-alt);
+}
+
+.btn-danger {
+  background: var(--color-statut-refuse);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #d32323;
+}
+
+.btn-icon {
+  padding: 0.5rem;
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.btn-icon:hover {
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* Cartes */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Badges de statut */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-envoyee {
+  background: color-mix(in srgb, var(--color-statut-envoyee) 18%, transparent);
+  color: #8fb8ff;
+}
+
+.badge-encours {
+  background: color-mix(in srgb, var(--color-statut-encours) 18%, transparent);
+  color: #ffcd7a;
+}
+
+.badge-entretien {
+  background: color-mix(in srgb, var(--color-statut-entretien) 18%, transparent);
+  color: #d4a4ff;
+}
+
+.badge-refuse {
+  background: color-mix(in srgb, var(--color-statut-refuse) 22%, transparent);
+  color: #ff8a8a;
+}
+
+.badge-accepte {
+  background: color-mix(in srgb, var(--color-statut-accepte) 18%, transparent);
+  color: #7be3a1;
+}
+
+.badge-relance {
+  background: color-mix(in srgb, var(--color-relance) 20%, transparent);
+  color: var(--color-relance);
+  border: 1px solid color-mix(in srgb, var(--color-relance) 45%, transparent);
+}
+
+/* Tags de compétences */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+/* Formulaires */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.1rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.92rem;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.field input.invalid,
+.field select.invalid {
+  border-color: var(--color-statut-refuse);
+}
+
+.field-error {
+  color: #ff8a8a;
+  font-size: 0.78rem;
+}
+
+/* Tableau */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background 0.15s ease;
+}
+
+tbody tr:hover {
+  background: var(--color-surface-alt);
+}
