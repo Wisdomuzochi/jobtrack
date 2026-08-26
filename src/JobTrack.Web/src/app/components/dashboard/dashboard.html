@@ -46,6 +46,7 @@
             <th>Poste</th>
             <th>Entreprise</th>
             <th>Compétences</th>
+            <th>Contact</th>
             <th>Statut</th>
             <th>Date candidature</th>
             <th>Relance</th>
@@ -63,6 +64,30 @@
                     <span class="tag">{{ competence.nom }}</span>
                   }
                   @if (candidature.competencesRequises.length === 0) {
+                    <span class="tag-empty">—</span>
+                  }
+                </div>
+              </td>
+              <td>
+                <div class="contact-list">
+                  @for (contact of candidature.contacts; track contact.id) {
+                    <div class="contact-item">
+                      <span class="contact-nom">{{ contact.nom }}</span>
+                      <div class="contact-liens">
+                        @if (contact.email) {
+                          <a [href]="'mailto:' + contact.email" class="contact-lien" [title]="contact.email">
+                            ✉️
+                          </a>
+                        }
+                        @if (contact.lienLinkedIn) {
+                          <a [href]="contact.lienLinkedIn" target="_blank" rel="noopener noreferrer" class="contact-lien" title="Profil LinkedIn">
+                            🔗
+                          </a>
+                        }
+                      </div>
+                    </div>
+                  }
+                  @if (candidature.contacts.length === 0) {
                     <span class="tag-empty">—</span>
                   }
                 </div>

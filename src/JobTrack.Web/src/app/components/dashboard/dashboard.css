@@ -103,6 +103,45 @@
   font-size: 0.8rem;
 }
 
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 180px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.contact-nom {
+  font-size: 0.85rem;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-liens {
+  display: flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.contact-lien {
+  font-size: 0.85rem;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.15s ease;
+}
+
+.contact-lien:hover {
+  opacity: 1;
+}
+
 .statut-cell {
   display: flex;
   align-items: center;
